@@ -1,6 +1,11 @@
 class Node {
-	int rootDistance;
+	String num;
 	int frequency;
-	char character;
-
+	Character character;
+	Node nextNode;
+	public Node(int f, Character c) {
+		this.frequency = f;
+		this.character = c;
+	}
+	
 }

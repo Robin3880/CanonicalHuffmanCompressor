@@ -1,9 +1,10 @@
+import java.util.HashMap;
 class Tester {
 	public static void main(String[] args) {
 		if (args.length == 1) {
 			Encoder e = new Encoder();
-			String test = e.encode(args[0]);
-			
+			HashMap<Character, String> codes = e.encode(args[0]);
+			System.out.println(codes);
         } else if (args.length == 0){
             System.out.println("Error: No file to encode provided in arguments");
         } else {
