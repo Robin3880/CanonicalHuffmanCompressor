@@ -4,10 +4,22 @@ class Encoder {
 	public HashMap<Character, String> encode(String file) {
 		/*read in ascii characters,  get frequency of each  */
 		HashMap<Character, Integer> frequencies = getFrequencies(file);
+		
+		/* error handling for empty files or files with one character */
+		if (frequencies.isEmpty()) {
+			return new HashMap<>();
+		}
+		if (frequencies.size() == 1) {
+			HashMap<Character, String> codes = new HashMap<>();
+			Character c = frequencies.keySet().iterator().next();
+			codes.put(c, "0");
+			return codes;
+		}
+		
 		/* create huffman tree with the characters and their frequencies */
 		ArrayList<Node> HufmannTree = generateHuffmanTree(frequencies);
-		/* trace path of each nodes to get binary code */
 		
+		/* trace path of each nodes to get binary code */
 		HashMap<Character, String> codes = new HashMap<>();
 		for (Node n: HufmannTree) {
 			if (n.character != null) {
@@ -23,10 +35,8 @@ class Encoder {
 		return codes;
 	}
 	
-	
 	private HashMap<Character, Integer> getFrequencies(String file) {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
+		try (BufferedReader br = new BufferedReader(new FileReader(file))){
 			HashMap<Character, Integer> frequencies = new HashMap<>();
 			String line = br.readLine();
 			while (line != null) {
