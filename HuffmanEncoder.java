@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-class HuffmanTableBuilder {
+class HuffmanEncoder  {
 	public HashMap<Character, String> encode(String file) {
 		//read in ascii characters,  get frequency of each  
 		HashMap<Character, Integer> frequencies = getFrequencies(file);

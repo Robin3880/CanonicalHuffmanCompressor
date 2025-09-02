@@ -2,21 +2,21 @@ import java.util.HashMap;
 import java.io.*;
 
 class Compress {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		if (args.length == 1) {
 			// create huffman table 
-			HuffmanTableBuilder htb = new HuffmanTableBuilder();
-			HashMap<Character, String> codes = htb.encode(args[0]);
+			HuffmanEncoder he = new HuffmanEncoder();
+			HashMap<Character, String> codes = he.encode(args[0]);
 			// change them to canonical codes for efficiency
-			HashMap<Character, String> canonicalCodes = htb.generateCanonicalCodes(codes);
+			HashMap<Character, String> canonicalCodes = he.generateCanonicalCodes(codes);
 			
 			//create compressed file 
 			File file = new File(args[0] + ".huf");
-			try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-				if (file.exists()) {
+			if (file.exists()) {
 					throw new IOException("file: " +file.getName() + " already exists");
 				}
 			
+			try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
 				// store total number of symbols in first byte
 				dos.writeInt(canonicalCodes.size());
 				
