@@ -7,5 +7,8 @@ class Node {
 		this.frequency = f;
 		this.character = c;
 	}
+	public Character getCharacter() {
+		return character;
+	}
 	
 }

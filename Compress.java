@@ -7,15 +7,21 @@ class Compress {
 			// create huffman table 
 			HuffmanTableBuilder htb = new HuffmanTableBuilder();
 			HashMap<Character, String> codes = htb.encode(args[0]);
-			System.out.println(codes);
+			// change them to canonical codes for efficiency
+			HashMap<Character, String> canonicalCodes = htb.generateCanonicalCodes(codes);
 			
 			//create compressed file 
-			try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(args[0] + ".huf"))) {
+			File file = new File(args[0] + ".huf");
+			try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
+				if (file.exists()) {
+					throw new IOException("file: " +file.getName() + " already exists");
+				}
+			
 				// store total number of symbols in first byte
-				dos.writeInt(codes.size());
+				dos.writeInt(canonicalCodes.size());
 				
 				//store huffman table with symbols and their length
-				for (HashMap.Entry<Character, String> entry : codes.entrySet()) {
+				for (HashMap.Entry<Character, String> entry : canonicalCodes.entrySet()) {
 					dos.writeChar(entry.getKey());       
 					dos.writeByte(entry.getValue().length()); 
 				}
@@ -29,7 +35,7 @@ class Compress {
 				String buffer = "";
 				while (c != -1) {
 					char character = (char) c;
-					buffer += codes.get(character);
+					buffer += canonicalCodes.get(character);
 					if (buffer.length() > 7) {
 						int value = Integer.parseInt(buffer.substring(0,8), 2);
 						dos.write(value);
@@ -55,7 +61,7 @@ class Compress {
 			}
 			
         } else if (args.length == 0){
-            System.out.println("Error: No file to encode provided in arguments");
+            System.out.println("Error: No file to compress provided in arguments");
         } else {
 			System.out.println("Error: too many arguments given. (arguments expected: 1)");
 		}
