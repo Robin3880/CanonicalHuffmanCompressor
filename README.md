@@ -4,7 +4,7 @@ This is a file compressor and decompressor which I built to help me learn Java.
 
 It uses canonical Huffman coding to compress text files into `.huf` format files and decompress them back.
 
-Requires Java Runtime Environment to be installed
+Requires Java Runtime Environment to be used
 
 
 ## Set Up 
