@@ -1,12 +1,12 @@
 import java.util.HashMap;
 import java.io.*;
 
-class Tester {
+class Compress {
 	public static void main(String[] args) {
 		if (args.length == 1) {
 			// create huffman table 
-			Encoder ec = new Encoder();
-			HashMap<Character, String> codes = ec.encode(args[0]);
+			HuffmanTableBuilder htb = new HuffmanTableBuilder();
+			HashMap<Character, String> codes = htb.encode(args[0]);
 			System.out.println(codes);
 			
 			//create compressed file 
